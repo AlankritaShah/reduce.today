@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Primary Meta Tags -->
+	<title>Reduce Today</title>
+	<meta name="title" content="Reduce Today">
+	<meta name="description" content="Hi Today!">
+
+	<!-- Open Graph / Facebook -->
+<!-- 	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://brightnews.co/">
+	<meta property="og:title" content="Bright News - A curated list of good things happening around the world">
+	<meta property="og:description" content="A curated list of good things happening around the world. Also, your daily dose of morning goodness.">
+	<meta property="og:image" content="https://www.brightnews.co/img/brightnews-og-image.png"> -->
+
+	<!-- Twitter -->
+<!-- 	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://brightnews.co/">
+	<meta property="twitter:title" content="Bright News - A curated list of good things happening around the world">
+	<meta property="twitter:description" content="A curated list of good things happening around the world. Also, your daily dose of morning goodness.">
+	<meta property="twitter:image" content="https://www.brightnews.co/img/brightnews-og-image.png"> -->
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="icon" href="img/reduce.png">
+
+	<link rel="stylesheet" type="text/css" href="css/grid12.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+	<link rel="stylesheet" type="text/css" href="css/animate.css">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+
+</head>
+<body>
+	<div class="container" id="app">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="intro">
+					<img src="img/reduce.png" class="intro-logo">
+					<h1 class="intro-header">Reduce Today</h1>
+					<h4 class="intro-sub-header">Hi From Ishan and Alankrita</h4>
+					<a class="btn btn-primary" @click="toggleSuggestModal()">Contribute steps</a>
+				</div>
+				<div>
+					<div class="news-grid-loader" id="news-grid-loader">
+						<span class="intro-sub-header">Loading happiness</span><div class="loader"></div>
+					</div>
+					<div class="news-grid hide" id="news-grid">
+						<a v-for="item in news_items" class="grid-item card animated fadeInUpSmall" v-bind:style="{ backgroundColor: item.color}" v-bind:href="item.url" target="_blank">
+							<p class="date">{{item.date}}</p>
+							<h3 class="title">{{item.title}}!</h3>
+							<span class="btn">Read more</span>
+							<div class="circle-1"></div>
+							<div class="circle-2"></div>
+						</a>
+					</div>
+					<div class="footer-quote center hide" id="footer-quote">
+						<p>"Boond boond se sagar banta hai. Hahaha!"</p>
+						<p class="author-info">Made with Coffee</p>
+						<!-- <p class="author-info">Made with ❤️ by <a href="https://twitter.com/anoopsethu" target="_blank">@anoopsethu</a></p> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="add-entry-modal" class="modal" v-bind:class="{ 'show': suggestion_modal }" aria-hidden="true">
+		  <div tabindex="-1" class="modal-overlay" data-micromodal-close>
+		    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title" >
+		      <div class="modal-state-1" v-if="!suggestion_modal_success">
+		      	<header>
+			        <div class="row">
+			        	<div class="col-xs-10">
+			        		<h2 class="modal-title" id="modal-1-title">
+					          Have a happy article to share? 🤗
+					        </h2>
+			        	</div>
+			        	<div class="col-xs-2 align-right">
+					        <button class="modal-close" aria-label="Close modal" @click="toggleSuggestModal()"></button>
+			        	</div>
+			        </div>
+			      </header>
+			      <div id="modal-1-content">
+			      	<p class="modal-desc" v-if="!form_error">Just fill up the tiny form below.</p>
+			      	<p class="modal-desc modal-desc-error" v-if="form_error">No empty fields, please. Let's spread happiness, not emptiness!</p>
+			      	<textarea v-model="suggested_title" placeholder="What is the article about?" class="form-control" rows="4" maxlength="240"></textarea>
+			      	<input v-model="suggested_url" type="text" placeholder="Link to the article" class="form-control" name="">
+			      	<input v-model="suggested_name" type="text" placeholder="What's your name?" class="form-control" name="">
+			      	<div class="row">
+			      		<div class="col-md-3 col-xs-12"></div>
+			      		<div class="col-md-4 col-xs-12"></div>
+			      		<div class="col-md-5 col-xs-12 align-right">
+			      			<button class="btn btn-primary" @click="sendSuggestedItem()">Spread happiness
+			      			</button>
+			      		</div>
+			      	</div>
+			      </div>
+		      </div>
+		      <div class="modal-state-2 center" v-if="suggestion_modal_success">
+				<header>
+				    <div class="row">
+				    	<div class="col-xs-10">
+				    	</div>
+				    	<div class="col-xs-2 align-right">
+					        <button class="modal-close" aria-label="Close modal" @click="toggleSuggestModal()"></button>
+				    	</div>
+				    </div>
+			  	</header>
+				<div class="animated fadeInUpSmall">
+			      	<img src="img/reduce.png">
+			      	<div class="row">
+			      		<div class="col-md-10 col-md-offset-1">
+			      			<h2 class="modal-title" id="modal-1-title">
+					          <span v-if="suggested_name.length>0">Your article is submitted, {{suggested_name}}!</span>
+					          <span v-if="!suggested_name.length || suggested_name.length==0">Your article is submitted!</span>
+					        </h2>
+					      	<p class="modal-desc">We'll soon update the list with your article. Wash your hands, stay safe, stay bright!</p> 
+			      		</div>
+			      	</div>   
+			    </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+  	<script type="text/javascript" src="js/airtable.browser.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
+  	<script type="text/javascript" src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+	<script type="text/javascript">
+
+		/* Turn the following two properties off for production release */
+		Vue.config.productionTip = false;
+		Vue.config.devtools = false;
+
+		MicroModal.init();
+
+		// var AIRTABLE_API_KEY = "keyaY233WFzFahQdD";
+		// var AIRTABLE_BASE_ID = "appM8lsxA6x7LaALC";
+
+		var AIRTABLE_API_KEY = "keyubbGbBSmFk5Hk4";
+		var AIRTABLE_BASE_ID = "appv8YR5nIjOd3t2n";
+
+		var Airtable = require('airtable');
+
+		var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_ID);
+
+		var app = new Vue({
+		  el: '#app',
+		  mounted: function(){
+		  	this.loadItems();
+		  },
+		  data: {
+		    suggested_title: null,
+		    suggested_url: null,
+		    suggested_name: null,
+		  	colors: ['#87CEEB', '#FF7F50', '#66CDAA', '#FF8C00', '#AFEEEE', '#FFA07A', '#D8BFD8', '#FFD700', '#FFA07A', '#DDA0DD', '#BC8F8F', '#F28D8C', '#FFC800', '#74EADE'],
+		    news_items: [],
+		    loading: true,
+		    suggestion_modal: false,
+		    suggestion_modal_success: false,
+		    form_error: false,
+		  },
+		  methods: {
+		  	loadItems: function(){
+		  		console.log("HI");
+				var self = this;
+
+				base('PublishedArticles').select({
+				    maxRecords: 100,
+				    view: "Grid view"
+				}).eachPage(function page(records, fetchNextPage) {
+				    records.forEach((record)=>{
+				    	console.log("HI 2");
+				    	if(record.fields['Title'] && record.fields['Title'].length>0){
+				    		var title = record.fields['Title'];
+					    	var date = record.fields['Date'];
+					    	var url = record.fields['URL'];
+					    	var color = self.colors[Math.floor(Math.random() * self.colors.length)];
+					    	console.log(title," ", date, " ", url, " ", color);
+					    	var news = {
+					    		'title': title,
+					    		'date': date,
+					    		'url': url,
+					    		'color': color,
+					    	}
+					    	self.news_items.push(news);
+				    	}
+				    });
+				    fetchNextPage();
+
+				}, function done(err) {
+				    if (err) { console.error(err); return; }
+				    self.sortNews();
+				    setTimeout(()=>{
+					  	if($(window).width()>800){
+					  		$('.news-grid').masonry({
+								itemSelector: '.grid-item',
+								gutter: 30,
+							});
+					  	}
+				  	});
+				  	$("#news-grid-loader").fadeOut("fast");
+				  	$("#news-grid").removeClass("hide");
+				  	$("#footer-quote").removeClass("hide");
+				});
+		  	},
+			sortNews: function() {
+		        this.news_items.sort( ( a, b) => {
+		            return new Date(b.date) - new Date(a.date);
+		        });
+		    },
+		    toggleSuggestModal:  function(){
+				this.suggestion_modal = !this.suggestion_modal;
+				app.clearModalFields();
+			},
+			clearModalFields:  function(){
+				this.suggested_title = null;
+				this.suggested_url = null;
+				this.suggested_name = null;
+				this.suggestion_modal_success = false;
+				this.form_error = false;
+			},
+			sendSuggestedItem: function(){
+				console.log("sendSuggestedItem 1");
+				if(this.suggested_title && this.suggested_url){
+					console.log("sendSuggestedItem 2");
+					base('SuggestedArticles').create([
+						{
+							"fields": {
+								"Title": this.suggested_title,
+								"URL": this.suggested_url,
+								"Name": this.suggested_name,
+							}
+						},
+					], 
+					function(err, records) {
+						if (err) {
+							console.error(err);
+							return;
+						}
+						app.suggestion_modal_success = true;
+					});
+				} else {
+					this.form_error = true;
+				}
+			},
+		  },
+		});
+
+		console.log("കൗതുകം ലേശം കൂടുതലാണല്ലേ? Stay safe, stay bright! 😀")
+
+	</script>
+</body>
+</html>
