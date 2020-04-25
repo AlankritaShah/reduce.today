@@ -4,21 +4,7 @@
 	<!-- Primary Meta Tags -->
 	<title>Reduce Today</title>
 	<meta name="title" content="Reduce Today">
-	<meta name="description" content="Hi Today!">
-
-	<!-- Open Graph / Facebook -->
-<!-- 	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://brightnews.co/">
-	<meta property="og:title" content="Bright News - A curated list of good things happening around the world">
-	<meta property="og:description" content="A curated list of good things happening around the world. Also, your daily dose of morning goodness.">
-	<meta property="og:image" content="https://www.brightnews.co/img/brightnews-og-image.png"> -->
-
-	<!-- Twitter -->
-<!-- 	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://brightnews.co/">
-	<meta property="twitter:title" content="Bright News - A curated list of good things happening around the world">
-	<meta property="twitter:description" content="A curated list of good things happening around the world. Also, your daily dose of morning goodness.">
-	<meta property="twitter:image" content="https://www.brightnews.co/img/brightnews-og-image.png"> -->
+	<meta name="description" content="Hi you!">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -37,12 +23,12 @@
 				<div class="intro">
 					<img src="img/reduce.png" class="intro-logo">
 					<h1 class="intro-header">Reduce Today</h1>
-					<h4 class="intro-sub-header">Hi From Ishan and Alankrita</h4>
-					<a class="btn btn-primary" @click="toggleSuggestModal()">Contribute steps</a>
+					<h4 class="intro-sub-header">Hi From Mother Earth</h4>
+					<a class="btn btn-primary" @click="toggleSuggestModal()">Contribute now</a>
 				</div>
 				<div>
 					<div class="news-grid-loader" id="news-grid-loader">
-						<span class="intro-sub-header">Loading happiness</span><div class="loader"></div>
+						<span class="intro-sub-header">Loading...</span><div class="loader"></div>
 					</div>
 					<div class="news-grid hide" id="news-grid">
 						<a v-for="item in news_items" class="grid-item card animated fadeInUpSmall" v-bind:style="{ backgroundColor: item.color}" v-bind:href="item.url" target="_blank">
@@ -54,9 +40,9 @@
 						</a>
 					</div>
 					<div class="footer-quote center hide" id="footer-quote">
-						<p>"Boond boond se sagar banta hai. Hahaha!"</p>
-						<p class="author-info">Made with Coffee</p>
-						<!-- <p class="author-info">Made with ❤️ by <a href="https://twitter.com/anoopsethu" target="_blank">@anoopsethu</a></p> -->
+						<p>"If you want to change the world, start with yourself."</p>
+						<!-- <p class="author-info">Made with Coffee</p> -->
+						<p class="author-info">Reused by <a href="https://www.linkedin.com/in/alankrita-shah-ba754411a/" target="_blank">@Alankrita</a> and <a href="https://www.linkedin.com/in/inu8421/" target="_blank">@Ishan</a></p>
 					</div>
 				</div>
 			</div>
@@ -69,7 +55,7 @@
 			        <div class="row">
 			        	<div class="col-xs-10">
 			        		<h2 class="modal-title" id="modal-1-title">
-					          Have a happy article to share? 🤗
+					          Make a contribution today.
 					        </h2>
 			        	</div>
 			        	<div class="col-xs-2 align-right">
@@ -77,18 +63,25 @@
 			        	</div>
 			        </div>
 			      </header>
-			      <div id="modal-1-content">
+				  <div id="modal-1-content">
 			      	<p class="modal-desc" v-if="!form_error">Just fill up the tiny form below.</p>
-			      	<p class="modal-desc modal-desc-error" v-if="form_error">No empty fields, please. Let's spread happiness, not emptiness!</p>
-			      	<textarea v-model="suggested_title" placeholder="What is the article about?" class="form-control" rows="4" maxlength="240"></textarea>
+			      	<p class="modal-desc modal-desc-error" v-if="form_error">All fields are required</p>
+			      	<p class="modal-desc">What is the article related to?</p>
+					<select v-model="suggested_category" class="form-control">
+					  <option disabled value="">What is the article related to?</option>
+					  <option>Positive Articles</option>
+					  <option>Lifestyle Changes</option>
+					  <option>Climate Heroes</option>
+					  <option>Video Links</option>
+					  <option>Wildlife News</option>
+					</select>
+			      	<textarea v-model="suggested_title" placeholder="What title would you like others to see?" class="form-control" rows="4" maxlength="240"></textarea>
 			      	<input v-model="suggested_url" type="text" placeholder="Link to the article" class="form-control" name="">
-			      	<input v-model="suggested_name" type="text" placeholder="What's your name?" class="form-control" name="">
 			      	<div class="row">
 			      		<div class="col-md-3 col-xs-12"></div>
 			      		<div class="col-md-4 col-xs-12"></div>
 			      		<div class="col-md-5 col-xs-12 align-right">
-			      			<button class="btn btn-primary" @click="sendSuggestedItem()">Spread happiness
-			      			</button>
+			      			<button class="btn btn-primary" @click="sendSuggestedItem()">Go Green</button>
 			      		</div>
 			      	</div>
 			      </div>
@@ -108,10 +101,9 @@
 			      	<div class="row">
 			      		<div class="col-md-10 col-md-offset-1">
 			      			<h2 class="modal-title" id="modal-1-title">
-					          <span v-if="suggested_name.length>0">Your article is submitted, {{suggested_name}}!</span>
-					          <span v-if="!suggested_name.length || suggested_name.length==0">Your article is submitted!</span>
+					          <span>Your article is submitted!</span>
 					        </h2>
-					      	<p class="modal-desc">We'll soon update the list with your article. Wash your hands, stay safe, stay bright!</p> 
+					      	<p class="modal-desc">We'll soon update the list with your article. Stay safe, go green!</p> 
 			      		</div>
 			      	</div>   
 			    </div>
@@ -149,9 +141,9 @@
 		  	this.loadItems();
 		  },
 		  data: {
+		  	suggested_category: null,
 		    suggested_title: null,
 		    suggested_url: null,
-		    suggested_name: null,
 		  	colors: ['#87CEEB', '#FF7F50', '#66CDAA', '#FF8C00', '#AFEEEE', '#FFA07A', '#D8BFD8', '#FFD700', '#FFA07A', '#DDA0DD', '#BC8F8F', '#F28D8C', '#FFC800', '#74EADE'],
 		    news_items: [],
 		    loading: true,
@@ -213,9 +205,9 @@
 				app.clearModalFields();
 			},
 			clearModalFields:  function(){
+				this.suggested_category = null;
 				this.suggested_title = null;
 				this.suggested_url = null;
-				this.suggested_name = null;
 				this.suggestion_modal_success = false;
 				this.form_error = false;
 			},
@@ -226,9 +218,9 @@
 					base('SuggestedArticles').create([
 						{
 							"fields": {
+								"Category": this.suggested_category,
 								"Title": this.suggested_title,
 								"URL": this.suggested_url,
-								"Name": this.suggested_name,
 							}
 						},
 					], 
@@ -246,7 +238,7 @@
 		  },
 		});
 
-		console.log("കൗതുകം ലേശം കൂടുതലാണല്ലേ? Stay safe, stay bright! 😀")
+		console.log("Welcome to a brighter world 😀")
 
 	</script>
 </body>
