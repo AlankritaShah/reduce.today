@@ -139,7 +139,7 @@
 
 		var Airtable = require('airtable');
 
-		var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_ID);
+		var base= new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_ID);
 
 		var app = new Vue({
 		  el: '#app',
@@ -150,7 +150,8 @@
 		  	suggested_category: null,
 		    suggested_title: null,
 		    suggested_url: null,
-		  	colors: ['#87CEEB', '#FF7F50', '#66CDAA', '#FF8C00', '#AFEEEE', '#FFA07A', '#D8BFD8', '#FFD700', '#FFA07A', '#DDA0DD', '#BC8F8F', '#F28D8C', '#FFC800', '#74EADE'],
+		    colors: new Map([["Positive Articles", '#87CEEB'], ["Lifestyle Changes", '#FFC800'] ,["Climate Heroes", '#66CDAA'] ,["Video Links", '#FF8C00'] ,["Wildlife News", '#DDA0DD']]),
+		  	// colors: ['#87CEEB', '#FF7F50', '#66CDAA', '#FF8C00', '#AFEEEE', '#FFA07A', '#D8BFD8', '#FFD700', '#FFA07A', '#DDA0DD', '#BC8F8F', '#F28D8C', '#FFC800', '#74EADE'],
 		    news_items: [],
 		    loading: true,
 		    suggestion_modal: false,
@@ -167,13 +168,13 @@
 				    view: "Grid view"
 				}).eachPage(function page(records, fetchNextPage) {
 				    records.forEach((record)=>{
-				    	console.log("HI 2");
 				    	if(record.fields['Title'] && record.fields['Title'].length>0){
 				    		var title = record.fields['Title'];
 					    	var date = record.fields['Date'];
 					    	var url = record.fields['URL'];
 					    	var category = record.fields['Category'];
-					    	var color = self.colors[Math.floor(Math.random() * self.colors.length)];
+					    	var color = self.colors.get(category);
+					    	// var color = self.colors[Math.floor(Math.random() * self.colors.length)];
 					    	console.log(title," ", date, " ", url, " ", color);
 					    	var news = {
 					    		'title': title,
