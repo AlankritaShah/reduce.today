@@ -221,9 +221,7 @@
 				this.form_error = false;
 			},
 			sendSuggestedItem: function(){
-				console.log("sendSuggestedItem 1");
 				if(this.suggested_title && this.suggested_url && this.suggested_category){
-					console.log("sendSuggestedItem 2");
 					base('SuggestedArticles').create([
 						{
 							"fields": {
