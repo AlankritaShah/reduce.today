@@ -21,9 +21,15 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="intro">
-					<img src="img/reduce.png" class="intro-logo">
-					<h1 class="intro-header">Reduce Today</h1>
-					<h4 class="intro-sub-header">Hi from Mother Earth</h4>
+					<div id="inner-div-into">
+						<div id="inner-div-intro">
+							<img src="img/reduce.png" class="intro-logo">
+						</div>
+						<div id="inner-div-intro">
+							<h1 class="intro-header">Reduce Today</h1>
+							<h4 class="intro-sub-header">Hi from Mother Earth</h4>
+						</div>
+					</div>
 					<a class="btn btn-primary" @click="toggleSuggestModal()">Contribute now</a>
 				</div>
 				<div>
@@ -32,7 +38,7 @@
 					</div>
 					<div class="news-grid hide" id="news-grid">
 						<a v-for="item in news_items" class="grid-item card animated fadeInUpSmall" v-bind:style="{ backgroundColor: item.color}" v-bind:href="item.url" target="_blank">
-							<p class="date">{{item.date}}</p>
+							<p class="date">{{item.category}}</p>
 							<h3 class="title">{{item.title}}!</h3>
 							<span class="btn">Read more</span>
 							<div class="circle-1"></div>
@@ -166,6 +172,7 @@
 				    		var title = record.fields['Title'];
 					    	var date = record.fields['Date'];
 					    	var url = record.fields['URL'];
+					    	var category = record.fields['Category'];
 					    	var color = self.colors[Math.floor(Math.random() * self.colors.length)];
 					    	console.log(title," ", date, " ", url, " ", color);
 					    	var news = {
@@ -173,6 +180,7 @@
 					    		'date': date,
 					    		'url': url,
 					    		'color': color,
+					    		'category': category,
 					    	}
 					    	self.news_items.push(news);
 				    	}
@@ -238,7 +246,7 @@
 		  },
 		});
 
-		console.log("Welcome to a brighter world 😀")
+		console.log("Welcome to a beautiful world 😀")
 
 	</script>
 </body>

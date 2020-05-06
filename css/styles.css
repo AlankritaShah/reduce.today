@@ -17,6 +17,17 @@ textarea{
 .intro{
 	margin: 50px 0px;
 }
+
+ #outer-div-intro {
+    width: 100%;
+}
+
+#inner-div-intro {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 3px;
+}
+
 .intro-logo{
 	width: 90px;
 	height: 90px;
